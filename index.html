@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImpactPro — Boost Your Impact</title>
+<meta name="description" content="Maximize your online presence">
+<meta property="og:title" content="ImpactPro — Boost Your Impact">
+<meta property="og:description" content="Maximize your online presence">
+<meta property="og:type" content="website">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#08080b; --surface:#0f0f14; --border:#1e1e26;
+    --text:#f4f4f6; --muted:#9a9aa8; --dim:#6b6b7a;
+    --accent:#7c5cff; --accent-2:#5b8cff;
+    --radius:14px; --max:1100px;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+
+  /* ── Ambient glow ── */
+  .glow{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .glow::before,.glow::after{content:'';position:absolute;border-radius:50%;filter:blur(120px);opacity:.22}
+  .glow::before{width:560px;height:560px;background:var(--accent);top:-220px;left:-140px}
+  .glow::after{width:520px;height:520px;background:var(--accent-2);top:120px;right:-200px;opacity:.14}
+
+  /* ── Nav ── */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+      background:rgba(8,8,11,.72);border-bottom:1px solid var(--border)}
+  .nav__inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:650;letter-spacing:-.01em}
+  .logo__mark{width:26px;height:26px;border-radius:7px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;font-size:13px;font-weight:800;color:#fff}
+  .nav__cta{padding:8px 16px;border-radius:9px;font-size:14px;font-weight:550;
+    background:var(--text);color:#08080b;transition:transform .18s ease,opacity .18s ease}
+  .nav__cta:hover{transform:translateY(-1px);opacity:.9}
+
+  /* ── Hero ── */
+  header{position:relative;z-index:1;padding:110px 0 90px;text-align:center}
+  .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;
+    border:1px solid var(--border);background:var(--surface);font-size:13px;color:var(--muted);margin-bottom:28px}
+  .badge__dot{width:6px;height:6px;border-radius:50%;background:#22c55e;
+    box-shadow:0 0 0 3px rgba(34,197,94,.18)}
+  h1{font-size:clamp(2.4rem,6vw,4.1rem);line-height:1.06;letter-spacing:-.035em;font-weight:700;margin-bottom:22px}
+  h1 .grad{background:linear-gradient(115deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{font-size:clamp(1rem,2vw,1.19rem);color:var(--muted);max-width:600px;margin:0 auto 38px}
+  .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{padding:13px 26px;border-radius:11px;font-size:15px;font-weight:560;
+    transition:transform .18s ease,box-shadow .18s ease;display:inline-block}
+  .btn--primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;
+    box-shadow:0 8px 26px -8px rgba(124,92,255,.7)}
+  .btn--primary:hover{transform:translateY(-2px);box-shadow:0 14px 34px -10px rgba(124,92,255,.85)}
+  .btn--ghost{border:1px solid var(--border);background:var(--surface);color:var(--text)}
+  .btn--ghost:hover{border-color:#32323e;transform:translateY(-2px)}
+
+  /* ── Stats ── */
+  .stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+    padding:34px;border:1px solid var(--border);border-radius:var(--radius);
+    background:linear-gradient(180deg,var(--surface),rgba(15,15,20,.4));margin-bottom:110px}
+  .stat{text-align:center}
+  .stat__value{display:block;font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:700;letter-spacing:-.02em}
+  .stat__label{display:block;font-size:13px;color:var(--dim);margin-top:5px}
+
+  /* ── Features ── */
+  section{position:relative;z-index:1;padding-bottom:110px}
+  .eyebrow{text-align:center;font-size:12px;font-weight:650;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  h2{text-align:center;font-size:clamp(1.7rem,4vw,2.5rem);letter-spacing:-.03em;
+    font-weight:680;margin-bottom:52px}
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+  .feature{padding:30px;border:1px solid var(--border);border-radius:var(--radius);
+    background:var(--surface);transition:transform .22s ease,border-color .22s ease}
+  .feature:hover{transform:translateY(-4px);border-color:#32323e}
+  .feature__icon{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
+    background:rgba(124,92,255,.13);color:var(--accent);margin-bottom:18px}
+  .feature__icon svg{width:21px;height:21px}
+  .feature h3{font-size:17px;font-weight:620;margin-bottom:9px;letter-spacing:-.01em}
+  .feature p{color:var(--muted);font-size:14.5px}
+
+  /* ── Closing CTA ── */
+  .closing{text-align:center;padding:74px 32px;border:1px solid var(--border);
+    border-radius:22px;background:
+      radial-gradient(120% 140% at 50% 0%,rgba(124,92,255,.16),transparent 62%),var(--surface)}
+  .closing h2{margin-bottom:14px}
+  .closing p{color:var(--muted);max-width:520px;margin:0 auto 30px}
+
+  /* ── Footer ── */
+  footer{border-top:1px solid var(--border);padding:38px 0;position:relative;z-index:1}
+  .footer__inner{display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:14px;font-size:13.5px;color:var(--dim)}
+
+  @media (max-width:640px){
+    header{padding:76px 0 62px}
+    .stats{grid-template-columns:1fr;gap:26px;padding:28px;margin-bottom:80px}
+    section{padding-bottom:80px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"></div>
+
+<nav>
+  <div class="wrap nav__inner">
+    <a class="logo" href="#">
+      <span class="logo__mark">I</span>
+      ImpactPro
+    </a>
+    <a class="nav__cta" href="#get-started">Get Started</a>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <span class="badge"><span class="badge__dot"></span>Boost Your Impact</span>
+    <h1>ImpactPro<br><span class="grad">Boost Your Impact</span></h1>
+    <p class="sub">Maximize your online presence</p>
+    <div class="cta-row">
+      <a class="btn btn--primary" href="#get-started">Get Started</a>
+      <a class="btn btn--ghost" href="#features">Learn More</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stats">
+        <div class="stat">
+          <span class="stat__value">3x</span>
+          <span class="stat__label">More Traffic</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value">2 min</span>
+          <span class="stat__label">Faster Load Times</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value">25%</span>
+          <span class="stat__label">Higher Conversions</span>
+        </div></div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <p class="eyebrow">Why ImpactPro</p>
+    <h2>Built for how you actually work.</h2>
+    <div class="features">
+        <article class="feature" style="--i:0">
+          <div class="feature__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <h3>Content Analyzer</h3>
+          <p>Optimize your content</p>
+        </article>
+        <article class="feature" style="--i:1">
+          <div class="feature__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+            </svg>
+          </div>
+          <h3>SEO Tools</h3>
+          <p>Improve search rankings</p>
+        </article>
+        <article class="feature" style="--i:2">
+          <div class="feature__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+          </div>
+          <h3>Social Media</h3>
+          <p>Increase engagement</p>
+        </article></div>
+  </div>
+</section>
+
+<section id="get-started">
+  <div class="wrap">
+    <div class="closing">
+      <h2>Unlock Your Online Potential</h2>
+      <p>Start growing your online presence today</p>
+      <a class="btn btn--primary" href="#">Get Started</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer__inner">
+    <span>Empowering Online Success</span>
+    <span>&copy; 2026 ImpactPro</span>
+  </div>
+</footer>
+</body>
+</html>
